@@ -47,7 +47,8 @@ func FileCreateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Debug("upload: " + mime_type)
 
-	forced_mime_type := fhead.Header.Get("x-pwndrop-content-type")
+	forced_mime_type := r.Header.Get("x-pwndrop-content-type")
+	log.Debug("requested to force mime type:" + forced_mime_type)
 	if forced_mime_type == "" {
 		forced_mime_type = mime_type
 	}
