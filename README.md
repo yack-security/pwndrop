@@ -17,24 +17,33 @@ acme/autocert: unable to satisfy "https://acme-v02.api.letsencrypt.org/acme/auth
   <img alt="uploadCurl" src="media/upload-via-curl.gif" height="500" />
 </p>
 
-* When uploading via command line utility you can specify the mime-type via special header - *x-pwndrop-content-type*:
+* When uploading via command line utility you can specify the mime-type via special header **x-pwndrop-content-type**:
 ```
 curl -X POST -H "x-pwndrop-content-type: application/javascript" -H "Authorization: [redacted]" -F "file=@Malicious.exe"  https://<your-server>/api/v1/files
 ```
 
 
-## Installtion from source code
+## Build from source code
 
-The original installation files were removed, as we are going to Go Get the dependencies instead of reading locally.
+The original installation files were removed as we are going to Go Get the necessary dependencies.
 This installation was tested with GO version: **1.18.4**: https://go.dev/dl/
 
+Go Installtion example (https://go.dev/doc/install):
+```
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.18.4.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+go version #verify at least 1.18
+```
+
+Build Pwndrop:
 ```
 git clone https://github.com/Sygnia/pwndrop.git
 cd pwndrop
 make build
+ls build/
 ```
 
-A 'build' folder will be created under the same folder.
+A 'build' directory will be created under the repository folder.
 You can use the compiled binary in the same way described in the original README below.
 
 
