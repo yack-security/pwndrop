@@ -1,3 +1,45 @@
+# **UPDATED FORK**
+
+As the original repository did not receive updates nor PRs for a couple of years, we will use this fork to address some issues and upgrade its capabilities.
+Read the changes carefully.
+
+## Addressed issues
+
+* Upgraded dependencies (golang.org/x/crypto) to address Autocert fails to sign certificate automatically with Let's encrypt.
+```
+acme/autocert: unable to satisfy "https://acme-v02.api.letsencrypt.org/acme/authz-v3/..." for domain "www.mydomain.com": no viable challenge type found
+```
+
+## New capabilities
+
+* Added capability to upload via command line utilities. A new button added to the main page UI, where you can get an example cURL command to use for upload:
+<p align="center">
+  <img alt="uploadCurl" src="media/upload-via-curl.gif" height="500" />
+</p>
+
+* When uploading via command line utility you can specify the mime-type via special header - *x-pwndrop-content-type*:
+```
+curl -X POST -H "x-pwndrop-content-type: application/javascript" -H "Authorization: [redacted]" -F "file=@Malicious.exe"  https://<your-server>/api/v1/files
+```
+
+
+## Installtion from source code
+
+The original installation files were removed, as we are going to Go Get the dependencies instead of reading locally.
+This installation was tested with GO version: **1.18.4**: https://go.dev/dl/
+
+```
+git clone https://github.com/Sygnia/pwndrop.git
+cd pwndrop
+make build
+```
+
+A 'build' folder will be created under the same folder.
+You can use the compiled binary in the same way described in the original README below.
+
+
+
+*****************************
 <p align="center">
   <img alt="pwndrop logo" src="https://raw.githubusercontent.com/kgretzky/pwndrop/master/media/pwndrop-logo-512.png" height="120" />
   <p align="center">
