@@ -21,8 +21,9 @@ func FileOptionsHandler(w http.ResponseWriter, r *http.Request) {
 
 func FileCreateHandler(w http.ResponseWriter, r *http.Request) {
 	// #### CHECK IF AUTHENTICATED ####
+	_, err_apikey := AuthApiKey(r)
 	_, err := AuthSession(r)
-	if err != nil {
+	if err != nil && err_apikey != nil {
 		DumpResponse(w, "unauthorized", http.StatusUnauthorized, API_ERROR_BAD_AUTHENTICATION, nil)
 		return
 	}
@@ -46,6 +47,12 @@ func FileCreateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Debug("upload: " + mime_type)
 
+	forced_mime_type := r.Header.Get("x-pwndrop-content-type")
+	log.Debug("requested to force mime type:" + forced_mime_type)
+	if forced_mime_type == "" {
+		forced_mime_type = mime_type
+	}
+
 	os.Mkdir(filepath.Join(data_dir, "files"), 0700)
 	save_path := filepath.Join(data_dir, "files", fname)
 	if err := SaveUploadedFile(file, fhead, save_path); err != nil {
@@ -67,7 +74,7 @@ func FileCreateHandler(w http.ResponseWriter, r *http.Request) {
 		FileSize:     fi.Size(),
 		UrlPath:      url_path,
 		RedirectPath: "",
-		MimeType:     mime_type,
+		MimeType:     forced_mime_type,
 		SubMimeType:  mime_type,
 		OrigMimeType: mime_type,
 		CreateTime:   time.Now().Unix(),

@@ -221,6 +221,13 @@ var appFileView = Vue.component("app-file-view", {
 				</form>
 			</div>
         </div>
+        <div class="curl-cmd">
+	   <a class="btn-copy" ref="copyCurlUpload" href @click.prevent="copyCurl()">
+   		<button class="btn btn-outline-success btn-copy-link col-xs-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3" v-tooltip:bottom="'Copy cURL command'">
+        		<i class="fas fa-copy" style="margin-right: 5px"></i>Upload via cURL command
+   		 </button>
+   	    </a>
+        </div>
         <div class="row row-info">
             <div class="server-status col-xs-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
                 free: <strong>{{ server_info.disk_free | prettyBytes }}</strong> &bull; used: <strong>{{ server_info.disk_used | prettyBytes }}</strong>
@@ -272,7 +279,8 @@ var appFileView = Vue.component("app-file-view", {
             server_info: {
                 disk_free: 0,
                 disk_used: 0
-            }
+            },
+            curlCommand: "curl -X POST -H \"Authorization: <Upload Key>\" -F \"file=@path/to/file\" https://<Pwndrop-host>/api/v1/files",
 		};
     },
     computed: {
@@ -281,7 +289,18 @@ var appFileView = Vue.component("app-file-view", {
         }
     },
 	methods: {
-		doShuffle() {
+		copyCurl() {
+            var l = window.location;
+            var filesurl = l.protocol + "//" + l.hostname;
+            if (l.port != "" && (l.port != 443 && l.port != 80)) {
+                    filesurl += ":" + l.port;
+            }
+            filesurl += escape("/api/v1/files");
+            this.curlCommand = "curl -X POST -H \"Authorization: "   + localStorage.Authorization + "\" -F \"file=@path/to/file\" ";
+            this.curlCommand = this.curlCommand + " " + filesurl;
+            this.$refs.copyCurlUpload.setAttribute("data-clipboard-text", this.curlCommand);
+        },
+        doShuffle() {
 			this.uploads = _.shuffle(this.uploads);
 		},
 		handleFiles($event) {
@@ -702,6 +721,15 @@ var appFileView = Vue.component("app-file-view", {
 				t.isDragging = true;
 			}
         });
+
+        this.mainBus.$on('loggedIn', (username) => {
+            console.log("LoggedIN");
+            console.log(username);
+            this.Username = username;
+            this.doLogin = false;
+            this.isLoggedIn = true;
+            });
+            
         this.syncServerInfo();
         this.refresh();
 	}
