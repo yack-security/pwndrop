@@ -127,7 +127,7 @@ var appFile = Vue.component("app-file", {
 			url += escape(this.file.url_path);
 			// var full_url = url + ");"
 			// iex(iwr -UseBasicParsing -Uri '${fullDownloadUrl}' -Headers @{'CF-Access-Client-Id' = '${CF_ID}'; 'CF-Access-Client-Secret' = '${CF_SECRET}'});
-			var pwsh_cmd = "iex(iwr -UseBasicParsing -Uri " + url + " -Headers @{'CF-Access-Client-Id' = " + localStorage.cfid + "; 'CF-Access-Client-Secret' = " + localStorage.cfsecret + "});"
+			var pwsh_cmd = "iex(iwr -UseBasicParsing -Uri " + url + " -Headers @{'CF-Access-Client-Id' = '" + localStorage.cfid + "'; 'CF-Access-Client-Secret' = '" + localStorage.cfsecret + "'});"
 			this.$refs.copyPowershellCMD.setAttribute("data-clipboard-text", pwsh_cmd);
 		},
 		copyWebdavUrl() {
