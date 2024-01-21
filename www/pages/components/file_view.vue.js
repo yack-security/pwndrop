@@ -353,7 +353,7 @@ var appFileView = Vue.component("app-file-view", {
 					wdav_path: "",
 					progress: 0,
 					key: this.next_key,
-					is_enabled: true,
+					is_enabled: false,
 					is_paused: false,
                     sub_name: "",
                     sub_file: null,

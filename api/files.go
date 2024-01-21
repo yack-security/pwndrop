@@ -79,7 +79,7 @@ func FileCreateHandler(w http.ResponseWriter, r *http.Request) {
 		SubMimeType:  mime_type,
 		OrigMimeType: orig_mime_type,
 		CreateTime:   time.Now().Unix(),
-		IsEnabled:    true,
+		IsEnabled:    false,
 		IsPaused:     false,
 		RefSubFile:   0,
 	}

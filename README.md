@@ -7,6 +7,7 @@ This is a fork of a fork (🤣🤣).
 - Added copy with cURL and powershell command button.
 - Added 2 headers for the cURL and powershell command, so we can auth in [Cloudflare Zero-Trust](https://developers.cloudflare.com/cloudflare-one/identity/service-tokens). See `./www/pages/vars.js`.
 - Added 2 headers for the upload command.
+- Files are disable by default.
 
 ![curl-and-pwsh](./media/curl-and-pwsh.jpg)
 
