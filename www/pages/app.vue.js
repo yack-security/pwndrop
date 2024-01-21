@@ -18,7 +18,7 @@ var appHome = Vue.component("app-home", {
         made by <a href="https://twitter.com/mrgretzky" target="_blank">@mrgretzky</a>
     </div>
     <div class="bg-version">
-        version {{ version }}
+        version <a href="https://github.com/yack-security/pwndrop" target="_blank" alt="Yack Security">{{ version }}</a>
     </div>
     <b-modal v-model="configShow" id="config-modal" title="Settings" size="lg" ok-title="Save"
         @ok.prevent="saveConfig()"
@@ -173,6 +173,9 @@ var appHome = Vue.component("app-home", {
 						console.log(error);
 					});
 			}
+            localStorage.removeItem("Authorization");
+            localStorage.removeItem("cfid");
+            localStorage.removeItem("cfsecret");
 		},
 		showConfig() {
 			axios
@@ -234,7 +237,7 @@ var appHome = Vue.component("app-home", {
 	created() {
         this.syncVersion();
         this.authCheck();
-        
+
         this.mainBus.$on('createdAccount', () => {
 			this.doCreateAccount = false;
 			this.doLogin = true;

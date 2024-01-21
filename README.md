@@ -1,4 +1,31 @@
-# **UPDATED FORK**
+# Pwndrop
+
+**Update Yack**
+
+This is a fork of a fork (🤣🤣).
+
+- Added copy with cURL and powershell command button.
+- Added 2 headers for the cURL and powershell command, so we can auth in [Cloudflare Zero-Trust](https://developers.cloudflare.com/cloudflare-one/identity/service-tokens). See `./www/pages/vars.js`.
+- Added 2 headers for the upload command.
+
+![curl-and-pwsh](./media/curl-and-pwsh.jpg)
+
+```bash
+# note: disable caching for this hostname in CF
+git clone https://github.com/yack-security/pwndrop.git
+cd pwndrop
+# edit ./www/pages/vars.js for CF headers
+make build
+# ls build/
+#
+cd build && ./pwndrop install && cd ..
+# edit /usr/local/pwndrop/pwndrop.ini
+pwndrop start -no-autocert -no-dns
+```
+
+---
+
+**UPDATED FORK SygniaLabs**
 
 As the original repository did not receive updates nor PRs for a couple of years, we will use this fork to address some issues and upgrade its capabilities.
 Read the changes carefully.
@@ -6,6 +33,7 @@ Read the changes carefully.
 ## Addressed issues
 
 * Upgraded dependencies (golang.org/x/crypto) to address Autocert fails to sign certificate automatically with Let's encrypt.
+
 ```
 acme/autocert: unable to satisfy "https://acme-v02.api.letsencrypt.org/acme/authz-v3/..." for domain "www.mydomain.com": no viable challenge type found
 ```
@@ -172,7 +200,7 @@ daemon management:
 
 parameters:
     -config         : specify a custom path to a config file (def. 'pwndrop.ini' in same directory as the executable)
-    -debug          : enable debug output 
+    -debug          : enable debug output
     -no-autocert    : disable automatic TLS certificate retrieval from LetsEncrypt; useful when you want to connect over IP or/and in a local network
     -no-dns         : do not run a DNS server on port 53 UDP; use this if you don't want to use pwndrop as a nameserver
     -h              : usage help

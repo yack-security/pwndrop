@@ -254,6 +254,8 @@ var appFileView = Vue.component("app-file-view", {
 	data() {
 		return {
 			url: Config.Hostname + Config.AdminDir + "/" + Config.ApiPath,
+			cfid: Config.CfId,
+			cfsecret: Config.CfSecret,
 			isDragging: false,
 			isSubDragging: false,
 			editShow: false,
@@ -296,7 +298,7 @@ var appFileView = Vue.component("app-file-view", {
                     filesurl += ":" + l.port;
             }
             filesurl += escape("/api/v1/files");
-            this.curlCommand = "curl -X POST -H \"Authorization: "   + localStorage.Authorization + "\" -F \"file=@path/to/file\" ";
+            this.curlCommand = "curl -X POST -H \"Authorization: " + localStorage.Authorization + "\" -H \"CF-Access-Client-Id: " + localStorage.cfid + "\" -H \"CF-Access-Client-Secret: " + localStorage.cfsecret + "\" -F \"file=@path/to/file\"";
             this.curlCommand = this.curlCommand + " " + filesurl;
             this.$refs.copyCurlUpload.setAttribute("data-clipboard-text", this.curlCommand);
         },
@@ -405,7 +407,7 @@ var appFileView = Vue.component("app-file-view", {
 							//vm.uploads[i].id = item_id;
 							//vm.uploads.splice(i, 1, it);
                             //vm.uploads[i].progress = 100;
-                            
+
 							//vm.uploads.sort((a, b) => a.key - b.key);
                         }
                         this.syncServerInfo();
@@ -502,7 +504,7 @@ var appFileView = Vue.component("app-file-view", {
                             f.sub_name = it.name;
                             console.log(f);
                         }
-                        
+
                         this.syncServerInfo();
 					})
 					.catch(error => console.log(error));
@@ -576,7 +578,7 @@ var appFileView = Vue.component("app-file-view", {
 						vm.uploads[i].url_path = f.url_path;
 						vm.uploads[i].redirect_path = f.redirect_path;
                         vm.uploads[i].mime_type = f.mime_type;
-                        vm.uploads[i].sub_mime_type = f.sub_mime_type;                       
+                        vm.uploads[i].sub_mime_type = f.sub_mime_type;
 					}
 				})
 				.catch(error => {
@@ -729,7 +731,7 @@ var appFileView = Vue.component("app-file-view", {
             this.doLogin = false;
             this.isLoggedIn = true;
             });
-            
+
         this.syncServerInfo();
         this.refresh();
 	}

@@ -69,6 +69,8 @@ var appLogin = Vue.component("app-login", {
 	data() {
 		return {
 			url: Config.Hostname + Config.AdminDir + "/" + Config.ApiPath,
+			cfid: Config.CfId,
+			cfsecret: Config.CfSecret,
 			Username: "",
             Password: "",
             status: "",
@@ -103,6 +105,8 @@ var appLogin = Vue.component("app-login", {
                     console.log(response.data.data.username);
 					this.mainBus.$emit("loggedIn", response.data.data.username);
                     localStorage.setItem("Authorization", response.data.data.apikey);
+										localStorage.setItem("cfid", this.cfid);
+										localStorage.setItem("cfsecret", this.cfsecret);
 				})
 				.catch(error => {
                     if (error.response.status == 401)

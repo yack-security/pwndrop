@@ -50,6 +50,20 @@ var appFile = Vue.component("app-file", {
 					</a>
 				</span>
 				<span class="btn-col">
+					<a class="btn-copy" ref="copyCurlCMD" href @click.prevent="copyCurlCMD()">
+						<button class="btn btn-sm btn-outline-success btn-copy-link" v-tooltip:bottom="'Copy cURL cmd to clipboard'">
+							<i class="fas fa-copy" style="margin-right: 5px"></i>cURL
+						</button>
+					</a>
+				</span>
+				<span class="btn-col">
+					<a class="btn-copy" ref="copyPowershellCMD" href @click.prevent="copyPowershellCMD()">
+						<button class="btn btn-sm btn-outline-success btn-copy-link" v-tooltip:bottom="'Copy PowerShell cmd to clipboard'">
+							<i class="fas fa-copy" style="margin-right: 5px"></i>PWSH
+						</button>
+					</a>
+				</span>
+				<span class="btn-col">
 					<a class="btn-copy" ref="copyWebdavUrl" href @click.prevent="copyWebdavUrl()">
 						<button class="btn btn-sm btn-outline-success btn-copy-link" v-tooltip:bottom="'Copy WebDAV link to clipboard'">
 							<i class="fas fa-copy" style="margin-right: 5px"></i>WebDAV
@@ -93,6 +107,28 @@ var appFile = Vue.component("app-file", {
 			}
 			url += escape(this.file.url_path);
 			this.$refs.copyUrl.setAttribute("data-clipboard-text", url);
+		},
+		copyCurlCMD() {
+			var l = window.location;
+			var url = l.protocol + "//" + l.hostname;
+			if (l.port != "" && (l.port != 443 && l.port != 80)) {
+				url += ":" + l.port;
+			}
+			url += escape(this.file.url_path);
+			var curl_cmd = "curl -H 'CF-Access-Client-Id: " + localStorage.cfid + "' -H 'CF-Access-Client-Secret: " + localStorage.cfsecret + "' " + url + " -o " + this.file.name
+			this.$refs.copyCurlCMD.setAttribute("data-clipboard-text", curl_cmd);
+		},
+		copyPowershellCMD() {
+			var l = window.location;
+			var url = l.protocol + "//" + l.hostname;
+			if (l.port != "" && (l.port != 443 && l.port != 80)) {
+				url += ":" + l.port;
+			}
+			url += escape(this.file.url_path);
+			// var full_url = url + ");"
+			// iex(iwr -UseBasicParsing -Uri '${fullDownloadUrl}' -Headers @{'CF-Access-Client-Id' = '${CF_ID}'; 'CF-Access-Client-Secret' = '${CF_SECRET}'});
+			var pwsh_cmd = "iex(iwr -UseBasicParsing -Uri " + url + " -Headers @{'CF-Access-Client-Id' = " + localStorage.cfid + "; 'CF-Access-Client-Secret' = " + localStorage.cfsecret + "});"
+			this.$refs.copyPowershellCMD.setAttribute("data-clipboard-text", pwsh_cmd);
 		},
 		copyWebdavUrl() {
 			var l = window.location;

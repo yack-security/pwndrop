@@ -3,3 +3,4 @@ build/pwndrop.exe
 build/data/
 build/
 release/
+.DS_Store

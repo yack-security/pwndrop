@@ -201,7 +201,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				s.r.ServeHTTP(w, r)
 				return
 			}
-			
+
 			s.addBlacklistHit(from_ip)
 			if len(Cfg.GetRedirectUrl()) > 0 {
 				http.Redirect(w, r, Cfg.GetRedirectUrl(), http.StatusFound)
